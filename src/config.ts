@@ -14,8 +14,8 @@ export const SITE = {
 // Leave a value empty ('') to hide that link everywhere.
 // Email is intentionally left out until Dani decides to publish one.
 export const SOCIAL = {
-  github: '', // e.g. 'https://github.com/your-username'
-  linkedin: '', // e.g. 'https://www.linkedin.com/in/your-profile'
+  github: 'https://github.com/deaje',
+  linkedin: 'https://www.linkedin.com/in/dani-ahmadj-561b71252',
   email: '',
 };
 

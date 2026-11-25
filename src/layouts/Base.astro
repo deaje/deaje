@@ -2,7 +2,7 @@
 import '../styles/global.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-import { SITE } from '../config';
+import { SITE, SOCIAL } from '../config';
 
 interface Props {
   title?: string;
@@ -35,6 +35,8 @@ const personLd = {
   jobTitle: 'Senior Software Engineer',
   url: Astro.site?.toString(),
   address: { '@type': 'PostalAddress', addressLocality: 'Surabaya', addressCountry: 'ID' },
+  worksFor: { '@type': 'Organization', name: 'camLine' },
+  sameAs: [SOCIAL.github, SOCIAL.linkedin].filter(Boolean),
 };
 ---
 
