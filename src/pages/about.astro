@@ -3,25 +3,25 @@ import Base from '../layouts/Base.astro';
 import Illustration from '../components/Illustration.astro';
 import { SOCIAL } from '../config';
 
-// Work history. Dates/details are drafts: check them before launch.
+// Work history (from LinkedIn).
 const work = [
   {
-    when: '2022 — now',
+    when: 'Jun 2022 — now',
     role: 'Senior Software Engineer',
     org: 'camLine',
-    note: 'Software for manufacturing: the systems factories quietly depend on every shift.',
+    note: 'Manufacturing software across six customer sites and 20+ projects: the systems factories quietly depend on every shift.',
   },
   {
-    when: '2018 — 2022',
-    role: 'Software Engineer',
+    when: 'May 2018 — May 2022',
+    role: 'Web Developer',
     org: 'Davinti Group',
-    note: 'Built an online-store platform, including the page editor merchants use to design their shops.',
+    note: 'A multi-store online-store platform in Laravel, including a drag-and-drop page editor for merchants, plus a vessel management system.',
   },
   {
-    when: '2016 — 2018',
+    when: 'Apr 2016 — May 2018',
     role: 'Web Developer',
     org: 'PT SIMMI Indonesia',
-    note: 'Academic and HR information systems in Laravel, where I learned that data outlives code.',
+    note: 'Academic and HR information systems, where I learned that data outlives code.',
   },
 ];
 
@@ -50,8 +50,8 @@ const contacts = [
         </p>
         <p>
           This site is my notebook in public. Some pages are technical, written for the next person who hits the same bug.
-          Some are personal: mornings, books, small things that made a week better. I studied Information Systems at
-          Universitas Narotama, and I still keep a paper notebook next to the keyboard.
+          Some are personal: mornings, books, small things that made a week better. I started writing code at a vocational high school in
+          Surabaya, and I still keep a paper notebook next to the keyboard.
         </p>
       </div>
     </div>
@@ -70,7 +70,10 @@ const contacts = [
         </li>
       ))}
     </ol>
-    <p class="edu"><span class="hand">school:</span> BSc in Information Systems, Universitas Narotama</p>
+    <ul class="edu">
+      <li><span class="hand">school:</span> BSc in Information Systems, Universitas Narotama <span class="yr">2017 — 2021</span></li>
+      <li><span class="hand">before that:</span> Software Engineering, SMK Negeri 1 Surabaya <span class="yr">2013 — 2016</span></li>
+    </ul>
   </section>
 
   <section class="wrap contact" aria-labelledby="contact-title">
@@ -100,7 +103,8 @@ const contacts = [
   h3 { font-size: 22px; font-weight: 600; line-height: 1.25; margin: 8px 0 8px; }
   .at { display: block; font-weight: 400; font-style: italic; color: var(--mute); font-size: 18px; }
   .timeline p { font-size: 16px; line-height: 1.55; margin: 0; color: #47455d; }
-  .edu { margin: 40px 0 0; font-style: italic; color: var(--ink-soft); }
+  .edu { list-style: none; padding: 0; margin: 40px 0 0; font-style: italic; color: var(--ink-soft); display: grid; gap: 6px; }
+  .yr { color: var(--mute); font-size: 16px; margin-left: 6px; }
   .edu .hand { font-style: normal; font-size: 24px; color: var(--sage-ink); margin-right: 6px; }
 
   .contact { padding-block: 40px 20px; }
