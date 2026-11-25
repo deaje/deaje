@@ -1,0 +1,19 @@
+---
+// Shows an AI-generated image if one is configured, else the code-drawn placeholder.
+// To swap: drop e.g. public/illustrations/hero.webp and set its path in ILLUSTRATIONS (src/config.ts).
+import { ILLUSTRATIONS } from '../config';
+import Desk from './art/Desk.astro';
+import Notebook from './art/Notebook.astro';
+import Letters from './art/Letters.astro';
+import Lost from './art/Lost.astro';
+
+
+interface Props { name: 'hero' | 'about' | 'writing' | 'lost'; alt?: string; width?: number; height?: number }
+const { name, alt = '', width = 840, height = 680 } = Astro.props;
+const src = ILLUSTRATIONS[name];
+const Fallback = { hero: Desk, about: Notebook, writing: Letters, lost: Lost }[name];
+---
+
+{src
+  ? <img src={src} alt={alt} width={width} height={height} loading={name === 'hero' ? 'eager' : 'lazy'} decoding="async" />
+  : <Fallback />}

@@ -1,0 +1,37 @@
+---
+import { formatDate, KIND_LABEL, readingMinutes, type Post } from '../lib';
+interface Props { post: Post; headingLevel?: 'h2' | 'h3' }
+const { post, headingLevel = 'h3' } = Astro.props;
+const H = headingLevel;
+const { title, description, date, kind, placeholder } = post.data;
+---
+
+<article class="card paper-card">
+  <div class="tape" aria-hidden="true"></div>
+  <div class="top">
+    <span class={`kind ${kind}`}>{KIND_LABEL[kind]}</span>
+    {placeholder && <span class="badge-placeholder">placeholder</span>}
+  </div>
+  <H class="title"><a href={`/writing/${post.id}`}>{title}</a></H>
+  <p>{description}</p>
+  <div class="dt"><time datetime={date.toISOString()}>{formatDate(date)}</time> · {readingMinutes(post.body)} min</div>
+</article>
+
+<style>
+  .card {
+    padding: 30px 24px 24px; min-width: 0;
+    transition: transform .35s cubic-bezier(.3, 1.6, .5, 1);
+  }
+  .top { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+  .kind { font-family: var(--hand); font-size: 22px; line-height: 1; }
+  .kind.code { color: var(--sage-ink); }
+  .kind.life { color: var(--rose-ink); }
+  .title { font-weight: 600; font-size: 22px; line-height: 1.22; margin: 8px 0 10px; text-wrap: balance; }
+  .title a { text-decoration: none; }
+  /* whole card is clickable, but only the title is the link for screen readers */
+  .title a::after { content: ''; position: absolute; inset: 0; }
+  p { font-size: 16px; line-height: 1.55; margin: 0 0 14px; color: #47455d; }
+  .dt { font-size: 14px; font-style: italic; color: var(--mute); }
+  .card:hover, .card:focus-within { transform: rotate(0) translateY(-6px) scale(1.02) !important; }
+  .card:hover .title a { color: var(--ink); text-decoration: underline; text-decoration-color: var(--ochre); }
+</style>

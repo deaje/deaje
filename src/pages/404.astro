@@ -1,0 +1,18 @@
+---
+import Base from '../layouts/Base.astro';
+import Illustration from '../components/Illustration.astro';
+---
+<Base title="Page not found" noindex>
+  <section class="wrap lost">
+    <div class="art"><Illustration name="lost" alt="A paper plane that missed its landing" width={720} height={440} /></div>
+    <p class="hand hi">oops, this page flew off somewhere</p>
+    <h1>404</h1>
+    <p>The page you're looking for isn't in the notebook. Try the <a href="/">home page</a> or <a href="/writing">everything I've written</a>.</p>
+  </section>
+</Base>
+<style>
+  .lost { max-width: 640px; text-align: center; padding-block: 40px 20px; }
+  .art { max-width: 340px; margin: 0 auto; }
+  .hi { font-size: 30px; color: var(--rose-ink); margin: 8px 0 0; }
+  h1 { font-weight: 400; font-size: 96px; line-height: 1; margin: 6px 0 12px; }
+</style>

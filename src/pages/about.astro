@@ -1,0 +1,116 @@
+---
+import Base from '../layouts/Base.astro';
+import Illustration from '../components/Illustration.astro';
+import { SOCIAL } from '../config';
+
+// Work history. Dates/details are drafts: check them before launch.
+const work = [
+  {
+    when: '2022 — now',
+    role: 'Senior Software Engineer',
+    org: 'camLine',
+    note: 'Software for manufacturing: the systems factories quietly depend on every shift.',
+  },
+  {
+    when: '2018 — 2022',
+    role: 'Software Engineer',
+    org: 'Davinti Group',
+    note: 'Built an online-store platform, including the page editor merchants use to design their shops.',
+  },
+  {
+    when: '2016 — 2018',
+    role: 'Web Developer',
+    org: 'PT SIMMI Indonesia',
+    note: 'Academic and HR information systems in Laravel, where I learned that data outlives code.',
+  },
+];
+
+const contacts = [
+  SOCIAL.github && { label: 'GitHub', href: SOCIAL.github },
+  SOCIAL.linkedin && { label: 'LinkedIn', href: SOCIAL.linkedin },
+  SOCIAL.email && { label: 'Email', href: `mailto:${SOCIAL.email}` },
+  { label: 'RSS', href: '/rss.xml' },
+].filter(Boolean) as { label: string; href: string }[];
+---
+
+<Base title="About" description="Who Dani Ahmad J. is: a senior software engineer in Surabaya with ten years of web work, from Laravel backends to factory software.">
+  <section class="wrap intro">
+    <div>
+      <p class="hi hand">the longer version</p>
+      <h1>About me</h1>
+      <div class="story">
+        <p>
+          I'm Dani, a software engineer from Surabaya, Indonesia. I've spent about ten years building for the web,
+          mostly with Laravel, and these days I work as a <span class="mk">senior engineer</span> at camLine.
+        </p>
+        <p>
+          Along the way I've built academic and HR information systems, an online-store platform with a drag-and-drop
+          page editor, and now software for manufacturing. The common thread is unglamorous: systems other people rely on
+          without having to think about them. I like that kind of work, and I like code that is boring in the best way.
+        </p>
+        <p>
+          This site is my notebook in public. Some pages are technical, written for the next person who hits the same bug.
+          Some are personal: mornings, books, small things that made a week better. I studied Information Systems at
+          Universitas Narotama, and I still keep a paper notebook next to the keyboard.
+        </p>
+      </div>
+    </div>
+    <div class="art"><Illustration name="about" alt="An open notebook with a pencil and a small plant" width={840} height={640} /></div>
+  </section>
+
+  <section class="wrap work" aria-labelledby="work-title">
+    <div class="sec-head"><h2 id="work-title">where I've worked</h2></div>
+    <ol class="timeline">
+      {work.map((w, i) => (
+        <li class="paper-card" style={`--tilt:${[-0.8, 0.6, -0.4][i % 3]}deg`}>
+          <div class="tape" aria-hidden="true"></div>
+          <span class="when hand">{w.when}</span>
+          <h3>{w.role} <span class="at">at {w.org}</span></h3>
+          <p>{w.note}</p>
+        </li>
+      ))}
+    </ol>
+    <p class="edu"><span class="hand">school:</span> BSc in Information Systems, Universitas Narotama</p>
+  </section>
+
+  <section class="wrap contact" aria-labelledby="contact-title">
+    <div class="sec-head"><h2 id="contact-title">say hello</h2></div>
+    <p>
+      The best way to reach me is through one of these. I read everything, even if replies take a few days.
+    </p>
+    <ul>
+      {contacts.map((c) => <li><a href={c.href} rel={c.href.startsWith('http') ? 'me noopener' : undefined}>{c.label}</a></li>)}
+    </ul>
+  </section>
+</Base>
+
+<style>
+  .intro { display: grid; grid-template-columns: 1.3fr 1fr; gap: 48px; align-items: start; padding-block: clamp(24px, 5vw, 60px) 40px; }
+  .hi { font-size: 30px; color: var(--rose-ink); transform: rotate(-3deg); display: inline-block; margin: 0; line-height: 1.1; }
+  h1 { font-weight: 400; font-size: clamp(44px, 6vw, 72px); line-height: 1; letter-spacing: -.02em; margin: 4px 0 24px; }
+  .story { font-size: 20px; line-height: 1.7; max-width: 60ch; }
+  .story p { margin: 0 0 1em; }
+  .art { padding-top: 40px; }
+  .art :global(svg), .art :global(img) { width: 100%; display: block; }
+
+  .work { padding-block: 30px 20px; }
+  .timeline { list-style: none; margin: 0; padding: 12px 0 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 36px 28px; }
+  .timeline li { padding: 30px 24px 22px; transform: rotate(var(--tilt)); }
+  .when { font-size: 24px; color: var(--ochre-ink); line-height: 1; }
+  h3 { font-size: 22px; font-weight: 600; line-height: 1.25; margin: 8px 0 8px; }
+  .at { display: block; font-weight: 400; font-style: italic; color: var(--mute); font-size: 18px; }
+  .timeline p { font-size: 16px; line-height: 1.55; margin: 0; color: #47455d; }
+  .edu { margin: 40px 0 0; font-style: italic; color: var(--ink-soft); }
+  .edu .hand { font-style: normal; font-size: 24px; color: var(--sage-ink); margin-right: 6px; }
+
+  .contact { padding-block: 40px 20px; }
+  .contact p { max-width: 56ch; margin: 0 0 14px; }
+  .contact ul { display: flex; flex-wrap: wrap; gap: 14px 26px; list-style: none; padding: 0; margin: 0; font-size: 20px; font-style: italic; }
+
+  @media (max-width: 900px) {
+    .intro { grid-template-columns: 1fr; }
+    .art { padding-top: 0; max-width: 380px; }
+    .timeline { grid-template-columns: 1fr; }
+    .timeline li { transform: none; }
+  }
+</style>

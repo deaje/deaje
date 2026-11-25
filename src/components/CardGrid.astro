@@ -1,0 +1,19 @@
+---
+---
+<div class="cards"><slot /></div>
+
+<style>
+  .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px 28px; padding-top: 12px; }
+  /* slightly crooked, like cards pinned by hand */
+  .cards > :global(*:nth-child(6n+1)) { transform: rotate(-1.4deg); }
+  .cards > :global(*:nth-child(6n+2)) { transform: rotate(.9deg) translateY(14px); }
+  .cards > :global(*:nth-child(6n+3)) { transform: rotate(-.6deg); }
+  .cards > :global(*:nth-child(6n+4)) { transform: rotate(1.2deg); }
+  .cards > :global(*:nth-child(6n+5)) { transform: rotate(-1deg) translateY(10px); }
+  .cards > :global(*:nth-child(6n+6)) { transform: rotate(.5deg); }
+  @media (min-width: 861px) and (max-width: 1080px) { .cards { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 860px) {
+    .cards { grid-template-columns: 1fr; gap: 36px; }
+    .cards > :global(*) { transform: none !important; }
+  }
+</style>

@@ -1,0 +1,87 @@
+---
+import Base from '../../layouts/Base.astro';
+import Illustration from '../../components/Illustration.astro';
+import { formatDate, getPosts, KIND_LABEL, readingMinutes } from '../../lib';
+
+const posts = await getPosts();
+const byYear = Map.groupBy
+  ? Map.groupBy(posts, (p) => p.data.date.getUTCFullYear())
+  : posts.reduce((m, p) => {
+      const y = p.data.date.getUTCFullYear();
+      m.set(y, [...(m.get(y) ?? []), p]);
+      return m;
+    }, new Map<number, typeof posts>());
+---
+
+<Base title="Writing" description="Everything Dani Ahmad J. has written: notes on code, systems and the ordinary days in between.">
+  <section class="wrap head">
+    <div>
+      <p class="hi hand">the whole notebook</p>
+      <h1>Writing</h1>
+      <p class="lede">
+        Technical notes for the next person who hits the same bug, and personal pages for whoever is curious.
+        Look for <span class="hand code">on code</span> and <span class="hand life">on life</span>.
+      </p>
+      <p class="rss"><a href="/rss.xml">subscribe via RSS</a></p>
+    </div>
+    <div class="art"><Illustration name="writing" alt="Two handwritten pages taped together" width={720} height={440} /></div>
+  </section>
+
+  <section class="wrap list-wrap" aria-label="All posts">
+    {[...byYear.entries()].map(([year, items]) => (
+      <div class="year">
+        <h2 class="hand">{year}</h2>
+        <ol class="paper-card list">
+          {items.map((post) => (
+            <li>
+              <time datetime={post.data.date.toISOString()}>{formatDate(post.data.date)}</time>
+              <div class="entry">
+                <a href={`/writing/${post.id}`}>{post.data.title}</a>
+                <p>{post.data.description}</p>
+              </div>
+              <span class="meta">
+                <span class={`hand kind ${post.data.kind}`}>{KIND_LABEL[post.data.kind]}</span>
+                <span>{readingMinutes(post.body)} min</span>
+                {post.data.placeholder && <span class="badge-placeholder">placeholder</span>}
+              </span>
+            </li>
+          ))}
+        </ol>
+      </div>
+    ))}
+  </section>
+</Base>
+
+<style>
+  .head { display: grid; grid-template-columns: 1.3fr 1fr; gap: 40px; align-items: center; padding-block: clamp(24px, 5vw, 60px) 30px; }
+  .hi { font-size: 30px; color: var(--rose-ink); transform: rotate(-3deg); display: inline-block; margin: 0; line-height: 1.1; }
+  h1 { font-weight: 400; font-size: clamp(44px, 6vw, 72px); line-height: 1; letter-spacing: -.02em; margin: 4px 0 18px; }
+  .lede { font-size: 19px; max-width: 46ch; color: var(--ink-soft); margin: 0 0 14px; }
+  .lede .hand { font-size: 1.3em; line-height: 1; }
+  .code { color: var(--sage-ink); } .life { color: var(--rose-ink); }
+  .rss { font-style: italic; margin: 0; }
+  .art { max-width: 380px; justify-self: end; }
+  .art :global(svg), .art :global(img) { width: 100%; display: block; }
+  .year { margin-top: 30px; }
+  .year h2 { font-size: 40px; margin: 0 0 12px; line-height: 1; }
+  .list { list-style: none; margin: 0; padding: 8px 28px; transform: rotate(-.3deg); }
+  .list li {
+    display: grid; grid-template-columns: 150px 1fr auto; gap: 24px; align-items: baseline;
+    padding-block: 20px; border-bottom: 1.5px dashed var(--line);
+  }
+  .list li:last-child { border-bottom: 0; }
+  time { font-style: italic; color: var(--mute); font-size: 16px; }
+  .entry a { font-size: 22px; font-weight: 600; line-height: 1.25; text-decoration: none; }
+  .entry a:hover { text-decoration: underline; text-decoration-color: var(--ochre); color: var(--ink); }
+  .entry p { margin: 6px 0 0; font-size: 16px; color: #47455d; max-width: 60ch; }
+  .meta { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; font-size: 15px; color: var(--mute); font-style: italic; }
+  .kind { font-size: 21px; font-style: normal; line-height: 1; }
+  .kind.code { color: var(--sage-ink); } .kind.life { color: var(--rose-ink); }
+  @media (max-width: 760px) {
+    .head { grid-template-columns: 1fr; }
+    .art { justify-self: start; max-width: 300px; }
+    .list { padding: 4px 18px; transform: none; }
+    .list li { grid-template-columns: 1fr; gap: 6px; }
+    .meta { flex-direction: row; align-items: center; flex-wrap: wrap; gap: 12px; }
+  }
+</style>
