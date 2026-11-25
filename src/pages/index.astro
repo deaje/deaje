@@ -3,6 +3,7 @@ import Base from '../layouts/Base.astro';
 import PostCard from '../components/PostCard.astro';
 import CardGrid from '../components/CardGrid.astro';
 import Illustration from '../components/Illustration.astro';
+import Photo from '../components/Photo.astro';
 import { getPosts } from '../lib';
 
 const posts = (await getPosts()).slice(0, 6);
@@ -11,7 +12,10 @@ const posts = (await getPosts()).slice(0, 6);
 <Base>
   <section class="wrap hero" aria-labelledby="hero-title">
     <div>
-      <p class="hi hand">halo, I'm Dani —</p>
+      <div class="greet">
+        <Photo size="small" eager />
+        <p class="hi hand">halo, I'm Dani —</p>
+      </div>
       <h1 id="hero-title">a software engineer who keeps a <span class="mk">paper notebook</span> next to the keyboard.</h1>
       <p class="lede">
         Ten years of building for the web, now a senior engineer at camLine in Surabaya.
@@ -44,6 +48,8 @@ const posts = (await getPosts()).slice(0, 6);
     display: grid; grid-template-columns: 1.2fr 1fr; gap: 40px; align-items: center;
     padding-block: clamp(32px, 7vw, 90px) clamp(40px, 6vw, 70px);
   }
+  .greet { display: flex; align-items: center; gap: 22px; margin-bottom: 14px; }
+  .greet :global(.polaroid.small) { width: 96px; flex: none; }
   .hi { font-size: 32px; color: var(--rose-ink); transform: rotate(-3deg); display: inline-block; margin: 0 0 6px; line-height: 1.1; }
   h1 { font-weight: 400; font-size: clamp(40px, 6vw, 76px); line-height: 1.04; letter-spacing: -.02em; margin: 0 0 24px; text-wrap: balance; }
   .lede { font-size: 20px; line-height: 1.6; margin: 0 0 22px; max-width: 42ch; color: var(--ink-soft); }

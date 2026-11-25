@@ -1,0 +1,49 @@
+---
+// Profile photo as a taped polaroid. Drop a file named src/assets/profile.(jpg|jpeg|png|webp)
+// and it is picked up, resized and converted to modern formats automatically.
+// Without one, a hand-drawn placeholder is shown.
+import { Picture } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import { SITE } from '../config';
+
+interface Props { size?: 'small' | 'large'; caption?: string; eager?: boolean }
+const { size = 'large', caption = 'hi, that\'s me', eager = false } = Astro.props;
+
+const files = import.meta.glob<{ default: ImageMetadata }>('../assets/profile.{jpg,jpeg,png,webp}', { eager: true });
+const photo = Object.values(files)[0]?.default;
+const width = size === 'large' ? 320 : 150;
+---
+
+<figure class={`polaroid ${size}`}>
+  <div class="tape" aria-hidden="true"></div>
+  {photo ? (
+    <Picture
+      src={photo}
+      alt={`Portrait of ${SITE.name}`}
+      widths={[width, width * 2]}
+      sizes={`${width}px`}
+      formats={['avif', 'webp']}
+      loading={eager ? 'eager' : 'lazy'}
+    />
+  ) : (
+    <svg viewBox="0 0 200 200" role="img" aria-label="Photo placeholder">
+      <rect width="200" height="200" fill="#e4d8bf" />
+      <circle cx="100" cy="82" r="34" fill="none" stroke="#2b2a4c" stroke-width="3" />
+      <path d="M44 176 q56 -74 112 0" fill="none" stroke="#2b2a4c" stroke-width="3" stroke-linecap="round" />
+    </svg>
+  )}
+  {size === 'large' && <figcaption class="hand">{caption}</figcaption>}
+</figure>
+
+<style>
+  .polaroid {
+    position: relative; margin: 0; background: var(--card);
+    padding: 12px 12px 14px; transform: rotate(2.5deg);
+    box-shadow: 0 1px 0 rgba(60, 40, 20, .08), 0 18px 28px -18px rgba(60, 40, 20, .55);
+  }
+  .polaroid.large { width: min(100%, 344px); }
+  .polaroid.small { width: 132px; padding: 8px 8px 22px; transform: rotate(-4deg); }
+  .polaroid :global(img), .polaroid svg { display: block; width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; filter: sepia(.12) saturate(.92); }
+  .polaroid.small .tape { width: 56px; height: 18px; top: -9px; }
+  figcaption { text-align: center; font-size: 22px; line-height: 1.1; padding-top: 10px; color: var(--ink-soft); }
+</style>
