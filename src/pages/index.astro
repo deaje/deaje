@@ -1,0 +1,61 @@
+---
+import Base from '../layouts/Base.astro';
+import PostCard from '../components/PostCard.astro';
+import CardGrid from '../components/CardGrid.astro';
+import Illustration from '../components/Illustration.astro';
+import { getPosts } from '../lib';
+
+const posts = (await getPosts()).slice(0, 6);
+---
+
+<Base>
+  <section class="wrap hero" aria-labelledby="hero-title">
+    <div>
+      <p class="hi hand">halo, I'm Dani —</p>
+      <h1 id="hero-title">a software engineer who keeps a <span class="mk">paper notebook</span> next to the keyboard.</h1>
+      <p class="lede">
+        Ten years of building for the web, now a senior engineer at camLine in Surabaya.
+        I write about code that holds up, the tools I trust, and the small, ordinary days in between.
+      </p>
+      <p class="cta"><a href="/about">more about me</a> <span aria-hidden="true">·</span> <a href="/writing">read the journal</a></p>
+    </div>
+    <div class="art">
+      <Illustration name="hero" alt="A morning desk with a laptop, a cup of coffee and a leaf, drawn by hand" />
+      <span class="note hand" aria-hidden="true">(the 6 a.m. desk)</span>
+    </div>
+  </section>
+
+  <section class="wrap posts" aria-labelledby="journal-title">
+    <div class="sec-head">
+      <h2 id="journal-title">from the journal</h2>
+      <span>newest first</span>
+    </div>
+    {posts.length === 0 ? (
+      <p>Nothing here yet. The first page is still drying.</p>
+    ) : (
+      <CardGrid>{posts.map((post) => <PostCard post={post} />)}</CardGrid>
+    )}
+    <p class="all"><a href="/writing">see everything I've written →</a></p>
+  </section>
+</Base>
+
+<style>
+  .hero {
+    display: grid; grid-template-columns: 1.2fr 1fr; gap: 40px; align-items: center;
+    padding-block: clamp(32px, 7vw, 90px) clamp(40px, 6vw, 70px);
+  }
+  .hi { font-size: 32px; color: var(--rose-ink); transform: rotate(-3deg); display: inline-block; margin: 0 0 6px; line-height: 1.1; }
+  h1 { font-weight: 400; font-size: clamp(40px, 6vw, 76px); line-height: 1.04; letter-spacing: -.02em; margin: 0 0 24px; text-wrap: balance; }
+  .lede { font-size: 20px; line-height: 1.6; margin: 0 0 22px; max-width: 42ch; color: var(--ink-soft); }
+  .cta { margin: 0; font-style: italic; font-size: 18px; }
+  .art { position: relative; }
+  .art :global(svg), .art :global(img) { width: 100%; display: block; }
+  .note { position: absolute; left: 44%; top: -2%; transform: rotate(-6deg); font-size: 24px; line-height: 1.1; }
+  .posts { padding-block: 10px 40px; }
+  .all { margin: 56px 0 0; text-align: right; font-style: italic; font-size: 18px; }
+  @media (max-width: 860px) {
+    .hero { grid-template-columns: 1fr; }
+    .art { max-width: 440px; }
+    .all { text-align: left; }
+  }
+</style>

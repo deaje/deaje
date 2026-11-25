@@ -1,0 +1,28 @@
+---
+import { SOCIAL } from '../config';
+const links = [
+  { href: '/rss.xml', label: 'rss' },
+  SOCIAL.github && { href: SOCIAL.github, label: 'github' },
+  SOCIAL.linkedin && { href: SOCIAL.linkedin, label: 'linkedin' },
+].filter(Boolean) as { href: string; label: string }[];
+const year = new Date().getFullYear();
+---
+
+<footer class="wrap site-footer">
+  <span class="sig">— Dani</span>
+  <ul aria-label="Elsewhere">
+    {links.map((l) => <li><a href={l.href} rel={l.href.startsWith('http') ? 'me noopener' : undefined}>{l.label}</a></li>)}
+  </ul>
+  <span>made by hand in Surabaya · {year}</span>
+</footer>
+
+<style>
+  .site-footer {
+    margin-top: 40px; padding-block: 28px 40px;
+    border-top: 1.5px dashed var(--line);
+    display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap;
+    font-style: italic; color: var(--mute); font-size: 16px;
+  }
+  .sig { font-family: var(--hand); font-style: normal; font-size: 28px; color: var(--ink); }
+  ul { display: flex; gap: 18px; list-style: none; margin: 0; padding: 0; }
+</style>
