@@ -1,6 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import Illustration from '../components/Illustration.astro';
+import Photo from '../components/Photo.astro';
 import { SOCIAL } from '../config';
 
 // Work history (from LinkedIn).
@@ -55,7 +56,10 @@ const contacts = [
         </p>
       </div>
     </div>
-    <div class="art"><Illustration name="about" alt="An open notebook with a pencil and a small plant" width={840} height={640} /></div>
+    <div class="art">
+      <Photo eager />
+      <div class="doodle"><Illustration name="about" alt="An open notebook with a pencil and a small plant" width={840} height={640} /></div>
+    </div>
   </section>
 
   <section class="wrap work" aria-labelledby="work-title">
@@ -93,7 +97,8 @@ const contacts = [
   h1 { font-weight: 400; font-size: clamp(44px, 6vw, 72px); line-height: 1; letter-spacing: -.02em; margin: 4px 0 24px; }
   .story { font-size: 20px; line-height: 1.7; max-width: 60ch; }
   .story p { margin: 0 0 1em; }
-  .art { padding-top: 40px; }
+  .art { padding-top: 40px; display: grid; justify-items: center; gap: 8px; }
+  .doodle { width: 78%; margin-top: -6px; }
   .art :global(svg), .art :global(img) { width: 100%; display: block; }
 
   .work { padding-block: 30px 20px; }
@@ -113,7 +118,9 @@ const contacts = [
 
   @media (max-width: 900px) {
     .intro { grid-template-columns: 1fr; }
-    .art { padding-top: 0; max-width: 380px; }
+    .art { padding-top: 0; order: -1; justify-items: start; }
+    .art :global(.polaroid.large) { width: 220px; }
+    .doodle { display: none; }
     .timeline { grid-template-columns: 1fr; }
     .timeline li { transform: none; }
   }
